@@ -1,1 +1,462 @@
-# web-myung
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Myung</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Onest & Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Onest', sans-serif;
+            cursor: url('https://r2.guns.lol/353e06fc-b4e8-40b9-be00-0f982dbf0d2f.png') 16 16, auto !important;
+        }
+
+        body {
+            background-color: #000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.6;
+        }
+
+        /* Snow Particles Animation */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+
+        /* Generate multiple snowflakes with varying speed & positions */
+        .snowflake:nth-child(1) { left: 10%; animation-duration: 7s; animation-delay: 0s; }
+        .snowflake:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; }
+        .snowflake:nth-child(3) { left: 30%; animation-duration: 6s; animation-delay: 1s; }
+        .snowflake:nth-child(4) { left: 40%; animation-duration: 8s; animation-delay: 4s; }
+        .snowflake:nth-child(5) { left: 50%; animation-duration: 9s; animation-delay: 3s; }
+        .snowflake:nth-child(6) { left: 60%; animation-duration: 7s; animation-delay: 2s; }
+        .snowflake:nth-child(7) { left: 70%; animation-duration: 11s; animation-delay: 1s; }
+        .snowflake:nth-child(8) { left: 80%; animation-duration: 8s; animation-delay: 0s; }
+        .snowflake:nth-child(9) { left: 90%; animation-duration: 6s; animation-delay: 5s; }
+
+        /* Main Container Card */
+        .container {
+            width: 100%;
+            max-width: 460px;
+            padding: 35px 25px;
+            background: rgba(18, 18, 18, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin: 20px;
+        }
+
+        /* Profile Section */
+        .avatar-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 15px auto;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .avatar-decoration {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            pointer-events: none;
+        }
+
+        .username {
+            font-size: 36px;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .bio {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .location {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+        }
+
+        /* Discord Presence Card */
+        .discord-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .discord-avatar-wrapper {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+
+        .discord-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .discord-status {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #747f8d; /* Offline */
+            border: 2px solid #121212;
+        }
+
+        .discord-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow: hidden;
+        }
+
+        .discord-name-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .discord-username {
+            font-weight: 600;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .guild-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .guild-tag img {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .discord-last-seen {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Social Icons */
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .social-icon {
+            color: #ffffff;
+            font-size: 22px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+        }
+
+        /* Music Player Box */
+        .music-player {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+        }
+
+        .music-cover {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .music-details {
+            flex: 1;
+        }
+
+        .music-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .progress-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .time-text {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            width: 25px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            width: 13%;
+            height: 100%;
+            background: #ffffff;
+            border-radius: 2px;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+        }
+
+        .music-controls i {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .music-controls i:hover {
+            color: #fff;
+        }
+
+        /* Page Views Badge (Bottom Left) */
+        .views-badge {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video class="bg-video" autoplay loop muted playsinline>
+        <source src="https://r2.guns.lol/447c336b-6269-458c-9d67-7cf3c7d04cae.mp4" type="video/mp4">
+    </video>
+
+    <!-- Background Audio -->
+    <audio id="bg-audio" loop autoplay>
+        <source src="https://r2.guns.lol/d0b1f022-1668-44ef-97ed-8a04b1fbc0b9.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Snow Particles -->
+    <div class="snowflakes">
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❅</div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="container">
+        <!-- Avatar -->
+        <div class="avatar-container">
+            <img src="https://r2.guns.lol/a_39a8e4c88e4cfe08d0b7698d44e1b481.png" class="avatar-decoration" alt="Avatar Decoration">
+            <img src="imgss.png" class="avatar" alt="Avatar">
+        </div>
+
+        <!-- User Information -->
+        <h1 class="username">Myung</h1>
+        <p class="bio">Anytihing about kpop🤗</p>
+        <div class="location">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Indonesia</span>
+        </div>
+
+        <!-- Discord Presence Box -->
+        <div class="discord-card">
+            <div class="discord-avatar-wrapper">
+                <img src="jiwoo.jpg" class="discord-avatar" alt="Discord Avatar">
+                <div class="discord-status"></div>
+            </div>
+            <div class="discord-info">
+                <div class="discord-name-row">
+                    <span class="discord-username">Myung</span>
+                    <span class="guild-tag">
+                        <span>🙂</span>
+                    </span>
+                </div>
+                <span class="discord-last-seen">last seen 1 hour ago</span>
+            </div>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="socials">
+            <a href="https://discord.com/users/687672737019330570" target="_blank" class="social-icon" title="Discord">
+                <i class="fa-brands fa-discord"></i>
+            </a>
+            <a href="https://tiktok.com/@kodey.aep" target="_blank" class="social-icon" title="TikTok (@kodey.aep)">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+            <a href="https://www.tiktok.com/@myungg_1?is_from_webapp=1&sender_device=pc" target="_blank" class="social-icon" title="TikTok (@Myung)">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+            <a href="mailto:kodeyaep@gmail.com" class="social-icon" title="Copy Email">
+                <i class="fa-regular fa-envelope"></i>
+            </a>
+        </div>
+
+        <!-- Music Player -->
+        <div class="music-player">
+            <img src="https://r2.guns.lol/500159fd-7a65-45ad-84eb-ab9577a3ce00.webp" class="music-cover" alt="Song Cover">
+            <div class="music-details">
+                <div class="music-title">:3</div>
+                <div class="progress-bar-container">
+                    <span class="time-text">0:23</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="time-text">3:03</span>
+                </div>
+                <div class="music-controls">
+                    <i class="fa-solid fa-backward-step"></i>
+                    <i class="fa-solid fa-pause"></i>
+                    <i class="fa-solid fa-forward-step"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Views Counter -->
+    <div class="views-badge">
+        <i class="fa-regular fa-eye"></i>
+        <span>1,023</span>
+    </div>
+
+</body>
+</html>
